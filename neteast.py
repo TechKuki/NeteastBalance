@@ -54,9 +54,7 @@ class Neteast(QWidget):
 		self.progressBar.setValue(value)
 
 if __name__ == "__main__":
-	accounts = [('user1@163.com', 'password'),
-		('user2@163.com', 'password'),
-		('user3@163.com', 'password')]
+	from account import accounts
 	app = QApplication(sys.argv)
 	ex = Neteast()
 	ex.setAccounts(accounts)
