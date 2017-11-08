@@ -5,7 +5,7 @@
 目前需要手动拖验证码，其余登录、查询余额等会自动处理。
 
 预览：
-![image](https://github.com/TechKuki/NeteastBalance/img/neteast.gif)
+![image](https://github.com/TechKuki/NeteastBalance/blob/master/img/neteast.gif)
 
 使用python3.6开发，需要安装PyQt5。
 ```
