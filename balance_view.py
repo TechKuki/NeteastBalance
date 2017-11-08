@@ -8,6 +8,7 @@ class BalanceView(QWebEngineView):
 		QWebEngineView.__init__(self)
 		self.index = 0
 		self.page().loadFinished.connect(self.loadFinished)
+		self.page().loadProgress.connect(self.loadProgress)
 
 		self.script = QWebEngineScript()
 		self.script.setInjectionPoint(QWebEngineScript.Deferred)
@@ -16,6 +17,9 @@ class BalanceView(QWebEngineView):
 		self.urlLogin = QUrl("http://reg.163.com/Logout.jsp?url=http://ecard.163.com/account/query_balance")
 		self.urlVerify = QUrl("http://ecard.163.com/handle_login")
 		self.urlBalance = QUrl("http://ecard.163.com/handle_query_verify")
+
+		self.queryCallBack = None
+		self.setProgress = None
 
 	def loadFinished(self, isOk):
 		if isOk:
@@ -67,6 +71,13 @@ class BalanceView(QWebEngineView):
 				self.page().runJavaScript("document.getElementsByClassName('red bold')[2].innerText", self.jsCallback)
 		else:
 			print("load error")
+
+	def loadProgress(self, progress):
+		if self.setProgress:
+			self.setProgress(progress)
+
+	def setLoadProgress(self, callback):
+		self.setProgress = callback
 
 	def jsCallback(self, balance):
 		if self.queryCallBack:

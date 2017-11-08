@@ -2,7 +2,7 @@
 
 import sys
 from PyQt5.QtCore import QUrl
-from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QProgressBar
 from balance_view import BalanceView
 from balance_table import BalanceTable
 
@@ -14,16 +14,26 @@ class Neteast(QWidget):
 
 	def initUI(self):
 		hboxLayout = QHBoxLayout()
+		vboxLayout = QVBoxLayout()
+
 		balanceView = BalanceView()
-		balanceView.setFixedSize(360, 385)
+		balanceView.setLoadProgress(self.setProgress)
+		balanceView.setFixedSize(360, 380)
+
+		progressBar = QProgressBar()
+		progressBar.setTextVisible(False)
+		progressBar.setFixedSize(360, 5)
 
 		balanceTable = BalanceTable()
 		balanceTable.setFixedSize(300, 385)
 
-		hboxLayout.addWidget(balanceView)
+		vboxLayout.addWidget(balanceView)
+		vboxLayout.addWidget(progressBar)
+		hboxLayout.addLayout(vboxLayout)
 		hboxLayout.addWidget(balanceTable)
 
 		self.balanceView = balanceView
+		self.progressBar = progressBar
 		self.balanceTable = balanceTable
 
 		self.setLayout(hboxLayout)
@@ -39,6 +49,9 @@ class Neteast(QWidget):
 
 	def queryCallBack(self, account, balance):
 		self.balanceTable.addItem(account, balance)
+
+	def setProgress(self, value):
+		self.progressBar.setValue(value)
 
 if __name__ == "__main__":
 	accounts = [('user1@163.com', 'password'),
